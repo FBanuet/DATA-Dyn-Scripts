@@ -1,0 +1,404 @@
+{
+  "Uuid": "a0465f85-4aa1-4202-a7be-61d64cda83b9",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "DirectShape Roof",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Nodes.SelectFaces, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "40728260-9974-43bd-a0e9-beb992aca886-002a670f:4062:13141:SURFACE",
+        "40728260-9974-43bd-a0e9-beb992aca886-002a670f:5837:11509:SURFACE",
+        "40728260-9974-43bd-a0e9-beb992aca886-002a670f:5837:11514:SURFACE",
+        "40728260-9974-43bd-a0e9-beb992aca886-002a670f:5837:11518:SURFACE",
+        "40728260-9974-43bd-a0e9-beb992aca886-002a670f:5837:11521:SURFACE",
+        "40728260-9974-43bd-a0e9-beb992aca886-002a670f:5837:11524:SURFACE"
+      ],
+      "Id": "db060016f36b4ecf9c09cf9f41baaaba",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "a880262fca764a56ae72da8750f81cea",
+          "Name": "Surfaces",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.DirectShape.ByGeometry@Autodesk.DesignScript.Geometry.Geometry,Revit.Elements.Category,Revit.Elements.Material,string",
+      "Id": "dafe0ca3d266408786bece5fa2d0e7bf",
+      "Inputs": [
+        {
+          "Id": "eb0180401bb0496781bdd1c4e1ecda32",
+          "Name": "geometry",
+          "Description": "A Solid or Surface that will be tessellated and placed in the Revit model as a DirectShape\n\nGeometry",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "15932c9cf59a4d19b64f6d543a50dc08",
+          "Name": "category",
+          "Description": "Must be a top level Built-in Category\n\nCategory",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "daa07edce2ad4786af7341c19732b261",
+          "Name": "material",
+          "Description": "A Material to apply to the faces of the DirectShape\n\nMaterial\nDefault value : Revit.Elements.DirectShape.DynamoPreviewMaterial",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "92e1faab23a0452a8974b4e2e55bcc89",
+          "Name": "name",
+          "Description": "A string name for the DirectShape\n\nstring\nDefault value : \"DirectShape\"",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "49fd42268c2349d09f9912180f69b5ec",
+          "Name": "DirectShape",
+          "Description": "A DirectShape Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Create a Revit DirectShape given some geometry, a name for the shape, a Category, and Material. The geometry will be tessellated before being placed in the Revit model The category of a DirectShape cannot be changed after creation, so a new DirectShape will be generated if the category input is changed.\n\nDirectShape.ByGeometry (geometry: Geometry, category: Category, material: Material = Revit.Elements.DirectShape.DynamoPreviewMaterial, name: string = \"DirectShape\"): DirectShape"
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 411,
+      "SelectedString": "OST_Roofs",
+      "NodeType": "ExtensionNode",
+      "Id": "e1c899d1432642a89b5db75346db2bfa",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5be453b3889344a88418816dc7e33b7d",
+          "Name": "Category",
+          "Description": "The selected Category.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All built-in categories."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Material.ByName@string",
+      "Id": "046e0e1df8e04d7c96d4a2caa7ae95b4",
+      "Inputs": [
+        {
+          "Id": "f2b01c138efe478db45430a2b18230d6",
+          "Name": "name",
+          "Description": "The name of the material\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "eddee711bb7f46798d7e33f5b71be826",
+          "Name": "Material",
+          "Description": "Material",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Select a material from the current document by the name\n\nMaterial.ByName (name: string): Material"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"Roof Metal Panel\";",
+      "Id": "4fab7c0985e14951b1101ba4f0b57123",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "12de5d37d888458cbe2ed8bd4b828bb9",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"Metal Panel Cladding\";",
+      "Id": "d8b3a7648d434363b310c94371b83783",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "36da977f83d54d86bc2f867e7e35e410",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.PolySurface.ByJoinedSurfaces@Autodesk.DesignScript.Geometry.Surface[]",
+      "Id": "6dd6c018de3d49b480e3569433915170",
+      "Inputs": [
+        {
+          "Id": "92da60dc76084f6c9c83d8f798903a54",
+          "Name": "surfaces",
+          "Description": "Surfaces to join into polysurface\n\nSurface[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "cb1e584feed14f19a41f0fa339eba1f8",
+          "Name": "PolySurface",
+          "Description": "PolySurface",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Make Polysurface by joining surfaces.\n\nPolySurface.ByJoinedSurfaces (surfaces: Surface[]): PolySurface"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Flatten@var[]..[],int",
+      "Id": "e677cf5fe9b749798453f21599112ad1",
+      "Inputs": [
+        {
+          "Id": "3b685fb74fc146daac46b8c286c4cb9e",
+          "Name": "list",
+          "Description": "List to flatten.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "cce1b8edf55340d29d8f00113bfd8d85",
+          "Name": "amt",
+          "Description": "Layers of nesting to remove.\n\nint\nDefault value : -1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "83fc354385b641cfb06b9d9bbd4a0879",
+          "Name": "var[]..[]",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Flattens a nested list of lists by a certain amount.\n\nList.Flatten (list: var[]..[], amt: int = -1): var[]..[]"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "a880262fca764a56ae72da8750f81cea",
+      "End": "3b685fb74fc146daac46b8c286c4cb9e",
+      "Id": "f84ee32aaf874439b0df23ee3fbc00c3"
+    },
+    {
+      "Start": "5be453b3889344a88418816dc7e33b7d",
+      "End": "15932c9cf59a4d19b64f6d543a50dc08",
+      "Id": "bcd1b375e9c24ac9809dcabf3079a2e9"
+    },
+    {
+      "Start": "eddee711bb7f46798d7e33f5b71be826",
+      "End": "daa07edce2ad4786af7341c19732b261",
+      "Id": "5bf3a2cd87874a0a96fd91d6aad3d3ce"
+    },
+    {
+      "Start": "12de5d37d888458cbe2ed8bd4b828bb9",
+      "End": "f2b01c138efe478db45430a2b18230d6",
+      "Id": "c1cef62bece8494e970b8a784c28540e"
+    },
+    {
+      "Start": "36da977f83d54d86bc2f867e7e35e410",
+      "End": "92e1faab23a0452a8974b4e2e55bcc89",
+      "Id": "31513f7c77994cf5b5853a319cdc833b"
+    },
+    {
+      "Start": "cb1e584feed14f19a41f0fa339eba1f8",
+      "End": "eb0180401bb0496781bdd1c4e1ecda32",
+      "Id": "c7ec225fe4894df4b1978fe6ffad8309"
+    },
+    {
+      "Start": "83fc354385b641cfb06b9d9bbd4a0879",
+      "End": "92da60dc76084f6c9c83d8f798903a54",
+      "Id": "885bcdf3ef2b4213bce53ce02db3d6b2"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 126118.19161803336,
+      "EyeY": 130855.71700246929,
+      "EyeZ": -58459.159543597838,
+      "LookX": 16485.499529746914,
+      "LookY": -6284.4054202498082,
+      "LookZ": -11462.257542151754,
+      "UpX": 0.071558638914436035,
+      "UpY": 0.99619469809176442,
+      "UpZ": -0.049754242940781422
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Select Faces",
+        "Id": "db060016f36b4ecf9c09cf9f41baaaba",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 514.55011880401412,
+        "Y": 1155.6556617613246
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "DirectShape.ByGeometry",
+        "Id": "dafe0ca3d266408786bece5fa2d0e7bf",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1438.2934535591069,
+        "Y": 1426.0116157930158
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Categories",
+        "Id": "e1c899d1432642a89b5db75346db2bfa",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 711.279194826683,
+        "Y": 1543.9058199117874
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Material.ByName",
+        "Id": "046e0e1df8e04d7c96d4a2caa7ae95b4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 926.19050441819354,
+        "Y": 1654.4316362731356
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "4fab7c0985e14951b1101ba4f0b57123",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 717.0,
+        "Y": 1682.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "d8b3a7648d434363b310c94371b83783",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 832.0,
+        "Y": 1819.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "PolySurface.ByJoinedSurfaces",
+        "Id": "6dd6c018de3d49b480e3569433915170",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1147.2421371408898,
+        "Y": 1173.0303027881523
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.Flatten",
+        "Id": "e677cf5fe9b749798453f21599112ad1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 858.64694997514732,
+        "Y": 1184.0828844242872
+      }
+    ],
+    "Annotations": [],
+    "X": -716.18710435137837,
+    "Y": -974.1861341225374,
+    "Zoom": 0.81428939376261189
+  }
+}

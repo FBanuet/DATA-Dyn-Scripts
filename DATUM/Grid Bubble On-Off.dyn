@@ -1,0 +1,217 @@
+{
+  "Uuid": "252d55f2-e731-4ba8-93cc-effb33acc182",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Grid Bubble On-Off",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\n\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\n\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport System\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication\r\napp = uiapp.Application\r\nuidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument\r\n\r\na = []\r\n\r\ngrids_leveles = UnwrapElement(IN[0])\r\n\r\naview = UnwrapElement(IN[1])\r\n\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nfor i in grids_leveles:\r\n\ti.HideBubbleInView(DatumEnds.End1,aview)\r\n\ti.ShowBubbleInView(DatumEnds.End0,aview)\r\n\t\t\r\n\t\r\n\t\r\n\t\r\n\t\r\n\t\t\r\n\t\r\nTransactionManager.Instance.TransactionTaskDone()\r\n\r\ndoc.Regenerate()\r\n\r\nOUT = grids_leveles",
+      "VariableInputPorts": true,
+      "Id": "e6a1ffc55ff64f34993f437be5c04898",
+      "Inputs": [
+        {
+          "Id": "04f67bbd1d1f40a0be2a0b19c4077b86",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9cd6a0ce921e4356afb3d63248e82a0b",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b34b8b5a480846fc96283d273ef48dac",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Nodes.DSModelElementsSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "90ca6ce4-16ba-45f5-b866-82eb27dbd318-002ec7a1",
+        "90ca6ce4-16ba-45f5-b866-82eb27dbd318-002ec82a",
+        "90ca6ce4-16ba-45f5-b866-82eb27dbd318-002ec88f",
+        "90ca6ce4-16ba-45f5-b866-82eb27dbd318-002ec931",
+        "d614a2c0-8d39-4100-9d24-cc3a2a0f9619-002f090e",
+        "d614a2c0-8d39-4100-9d24-cc3a2a0f9619-002f09b9"
+      ],
+      "Id": "854861ad35a8477686ab4c5a856baff1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d9f8c880df484ae0af32fabdf2053eb9",
+          "Name": "Elements",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Application.Document.Current",
+      "Id": "73fe0bd0bcfd4fc49c9d99c2903b856e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "df0fbf4356fa4dfa8a59bc6ca5ed494b",
+          "Name": "Document",
+          "Description": "Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the current document\n\nDocument.Current: Document"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Application.Document.ActiveView",
+      "Id": "2b371fa59fe046a98631abee8a53fc7f",
+      "Inputs": [
+        {
+          "Id": "aeb4c11374a1489ebdc5ad01eefb6b76",
+          "Name": "document",
+          "Description": "Revit.Application.Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5e262900fde6439fb54cb1cb8c81ecca",
+          "Name": "View",
+          "Description": "View",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the active view for the document\n\nDocument.ActiveView: View"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "d9f8c880df484ae0af32fabdf2053eb9",
+      "End": "04f67bbd1d1f40a0be2a0b19c4077b86",
+      "Id": "5d5a39e30ebb497294664ad25a182b20"
+    },
+    {
+      "Start": "df0fbf4356fa4dfa8a59bc6ca5ed494b",
+      "End": "aeb4c11374a1489ebdc5ad01eefb6b76",
+      "Id": "8b1e4e153b8b455f9d5a312c853414ec"
+    },
+    {
+      "Start": "5e262900fde6439fb54cb1cb8c81ecca",
+      "End": "9cd6a0ce921e4356afb3d63248e82a0b",
+      "Id": "0e0280cc5907417f8344b97520cba7f2"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "e6a1ffc55ff64f34993f437be5c04898",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 697.7003006738471,
+        "Y": 570.48520587398571
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Select Model Elements",
+        "Id": "854861ad35a8477686ab4c5a856baff1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 269.34286322790297,
+        "Y": 564.16204037341288
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.Current",
+        "Id": "73fe0bd0bcfd4fc49c9d99c2903b856e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -45.269553276248644,
+        "Y": 770.12942680525725
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.ActiveView",
+        "Id": "2b371fa59fe046a98631abee8a53fc7f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 250.058485167792,
+        "Y": 779.08147670028632
+      }
+    ],
+    "Annotations": [],
+    "X": 110.44902942379576,
+    "Y": -81.285580509945589,
+    "Zoom": 0.54859030147804022
+  }
+}

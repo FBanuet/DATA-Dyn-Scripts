@@ -1,0 +1,467 @@
+{
+  "Uuid": "bd65ce57-5acb-445b-a58d-fa9a56f7663a",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "AreaBoundary_From_Face",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Nodes.DSFaceSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "9838e522-c7da-4fb6-afd0-fb6ed4de52df-003e6c21:1:SURFACE"
+      ],
+      "Id": "bac3df95d08f4cb8844f8537e48e69d1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "bae475c752784732b174701e042b6c61",
+          "Name": "Surface",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Surface.PerimeterCurves",
+      "Id": "e043fb002cb0426387460a06719f1d39",
+      "Inputs": [
+        {
+          "Id": "e30e764bbdb649178a86bfe924d199ce",
+          "Name": "surface",
+          "Description": "Autodesk.DesignScript.Geometry.Surface",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1796bd30255743b7b14790b07f975224",
+          "Name": "Curve[]",
+          "Description": "Curve[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Return all the boundary Curves of the Surface.\n\nSurface.PerimeterCurves ( ): Curve[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Flatten@var[]..[],int",
+      "Id": "dd7f951784d24338af5641e034490818",
+      "Inputs": [
+        {
+          "Id": "5f23a7ab363142c9af3eecb57e91f53e",
+          "Name": "list",
+          "Description": "List to flatten.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "dd9fe6ba3fee41a099634681a71e0f9e",
+          "Name": "amt",
+          "Description": "Layers of nesting to remove.\n\nint\nDefault value : -1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b827f6f78d9b4f3fa3523b3a9df92710",
+          "Name": "var[]..[]",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Flattens a nested list of lists by a certain amount.\n\nList.Flatten (list: var[]..[], amt: int = -1): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "fdc98eeb-e9be-4c20-b9ae-1fa686636067",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "22260d54cd774d7b9a019013d49c49da",
+      "Inputs": [
+        {
+          "Id": "618bbdc3e4e449bca3734c278d721857",
+          "Name": "curve",
+          "Description": "Curve",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c14c8e1d33c34c658b0d2b0ecb695da9",
+          "Name": "sketchPlane",
+          "Description": "SketchPlane",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7496bed6d4804fb88ca960a377c65a59",
+          "Name": "areaPlanView",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f96289f064fd444582f9e201fdb0c557",
+          "Name": "areaSeparator",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates area separation lines from geometry curves. "
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Levels, DSRevitNodesUI",
+      "SelectedIndex": 11,
+      "SelectedString": "Level 121 Gentlemen's",
+      "NodeType": "ExtensionNode",
+      "Id": "035e2f628bf34b23ae2a5be81aa3029b",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ff97c46aead34cd697362c935e17a945",
+          "Name": "Levels",
+          "Description": "The selected Levels",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Select a level in the active document"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Application.Document.Current",
+      "Id": "1450a266503548e5bc65233d62c02f30",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6b447bb91c35432e80070be8342776ca",
+          "Name": "Document",
+          "Description": "Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the current document\n\nDocument.Current: Document"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Application.Document.ActiveView",
+      "Id": "af89fa22a341448ea0ad3bc2cd9fca52",
+      "Inputs": [
+        {
+          "Id": "7e978d7029cf42fc989fb4b476274f24",
+          "Name": "document",
+          "Description": "Revit.Application.Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a2de8c7733d148c7a61326451865a036",
+          "Name": "View",
+          "Description": "View",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the active view for the document\n\nDocument.ActiveView: View"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "cbe6db5e-3248-46ff-87e4-b620a1abf252",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "20fa91c5e3c44896a8cd29540467bd35",
+      "Inputs": [
+        {
+          "Id": "79d49dc22f004b8fbf82bb251044de8d",
+          "Name": "level",
+          "Description": "Level",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2f4da8126e734a42aff84f5a2a562fa7",
+          "Name": "plane",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves the plane of a given level"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.SketchPlane.ByPlane@Autodesk.DesignScript.Geometry.Plane",
+      "Id": "8f8c320c428c4d2fad8a729c80b10827",
+      "Inputs": [
+        {
+          "Id": "3db24e3c88744227b01a39f60f2ca673",
+          "Name": "plane",
+          "Description": "Plane",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "45dc7db51a3d4a4ba3d0ca723bced55e",
+          "Name": "SketchPlane",
+          "Description": "SketchPlane",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Make a Revit SketchPlane given a plane\n\nSketchPlane.ByPlane (plane: Plane): SketchPlane"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "bae475c752784732b174701e042b6c61",
+      "End": "e30e764bbdb649178a86bfe924d199ce",
+      "Id": "1567f983ad8f400381cc8311a85a5115"
+    },
+    {
+      "Start": "1796bd30255743b7b14790b07f975224",
+      "End": "5f23a7ab363142c9af3eecb57e91f53e",
+      "Id": "d203a523688246e097654f0d7e527479"
+    },
+    {
+      "Start": "b827f6f78d9b4f3fa3523b3a9df92710",
+      "End": "618bbdc3e4e449bca3734c278d721857",
+      "Id": "4b18dec549724f1e9b79f1bf3343ec36"
+    },
+    {
+      "Start": "ff97c46aead34cd697362c935e17a945",
+      "End": "79d49dc22f004b8fbf82bb251044de8d",
+      "Id": "9703c34021fe40f4bc4f4fa8334e1052"
+    },
+    {
+      "Start": "6b447bb91c35432e80070be8342776ca",
+      "End": "7e978d7029cf42fc989fb4b476274f24",
+      "Id": "91bcde8e0a054a3da3577f1cc963ed7b"
+    },
+    {
+      "Start": "a2de8c7733d148c7a61326451865a036",
+      "End": "7496bed6d4804fb88ca960a377c65a59",
+      "Id": "853ba012687d477cad396f65acdd4562"
+    },
+    {
+      "Start": "2f4da8126e734a42aff84f5a2a562fa7",
+      "End": "3db24e3c88744227b01a39f60f2ca673",
+      "Id": "bc1f25078e4c4ee2ba7b0a30066250e8"
+    },
+    {
+      "Start": "45dc7db51a3d4a4ba3d0ca723bced55e",
+      "End": "c14c8e1d33c34c658b0d2b0ecb695da9",
+      "Id": "8903933fb43943d5901ef9e7e6d7c054"
+    }
+  ],
+  "Dependencies": [
+    "fdc98eeb-e9be-4c20-b9ae-1fa686636067",
+    "cbe6db5e-3248-46ff-87e4-b620a1abf252"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "Clockwork for Dynamo 2.x",
+      "Version": "2.3.0",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "22260d54cd774d7b9a019013d49c49da",
+        "20fa91c5e3c44896a8cd29540467bd35"
+      ]
+    }
+  ],
+  "Bindings": [
+    {
+      "NodeId": "8f8c320c-428c-4d2f-ad8a-729c80b10827",
+      "Binding": {
+        "ByPlane_InClassDecl-1_InFunctionScope-1_Instance0_8f8c320c-428c-4d2f-ad8a-729c80b10827": "PFNPQVAtRU5WOkVudmVsb3BlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zOnhzZD0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiIHhtbG5zOlNPQVAtRU5DPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VuY29kaW5nLyIgeG1sbnM6U09BUC1FTlY9Imh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3NvYXAvZW52ZWxvcGUvIiB4bWxuczpjbHI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vc29hcC9lbmNvZGluZy9jbHIvMS4wIiBTT0FQLUVOVjplbmNvZGluZ1N0eWxlPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VuY29kaW5nLyI+DQo8U09BUC1FTlY6Qm9keT4NCjxhMTpDYWxsU2l0ZV94MDAyQl9UcmFjZVNlcmlhbGlzZXJIZWxwZXIgaWQ9InJlZi0xIiB4bWxuczphMT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9jbHIvbnNhc3NlbS9Qcm90b0NvcmUvUHJvdG9Db3JlJTJDJTIwVmVyc2lvbiUzRDIuMy4wLjU4ODUlMkMlMjBDdWx0dXJlJTNEbmV1dHJhbCUyQyUyMFB1YmxpY0tleVRva2VuJTNEbnVsbCI+DQo8TnVtYmVyT2ZFbGVtZW50cz4xPC9OdW1iZXJPZkVsZW1lbnRzPg0KPEJhc2UtMF9IYXNEYXRhPnRydWU8L0Jhc2UtMF9IYXNEYXRhPg0KPEJhc2UtMF9EYXRhIGlkPSJyZWYtMyI+UEZOUFFWQXRSVTVXT2tWdWRtVnNiM0JsSUhodGJHNXpPbmh6YVQwaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNUzlZVFV4VFkyaGxiV0V0YVc1emRHRnVZMlVpSUhodGJHNXpPbmh6WkQwaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNUzlZVFV4VFkyaGxiV0VpSUhodGJHNXpPbE5QUVZBdFJVNURQU0pvZEhSd09pOHZjMk5vWlcxaGN5NTRiV3h6YjJGd0xtOXlaeTl6YjJGd0wyVnVZMjlrYVc1bkx5SWdlRzFzYm5NNlUwOUJVQzFGVGxZOUltaDBkSEE2THk5elkyaGxiV0Z6TG5odGJITnZZWEF1YjNKbkwzTnZZWEF2Wlc1MlpXeHZjR1V2SWlCNGJXeHVjenBqYkhJOUltaDBkSEE2THk5elkyaGxiV0Z6TG0xcFkzSnZjMjltZEM1amIyMHZjMjloY0M5bGJtTnZaR2x1Wnk5amJISXZNUzR3SWlCVFQwRlFMVVZPVmpwbGJtTnZaR2x1WjFOMGVXeGxQU0pvZEhSd09pOHZjMk5vWlcxaGN5NTRiV3h6YjJGd0xtOXlaeTl6YjJGd0wyVnVZMjlrYVc1bkx5SStEUW84VTA5QlVDMUZUbFk2UW05a2VUNE5DanhoTVRwVFpYSnBZV3hwZW1GaWJHVkpaQ0JwWkQwaWNtVm1MVEVpSUhodGJHNXpPbUV4UFNKb2RIUndPaTh2YzJOb1pXMWhjeTV0YVdOeWIzTnZablF1WTI5dEwyTnNjaTl1YzJGemMyVnRMMUpsZG1sMFUyVnlkbWxqWlhNdVVHVnljMmx6ZEdWdVkyVXZVbVYyYVhSVFpYSjJhV05sY3lVeVF5VXlNRlpsY25OcGIyNGxNMFF5TGpNdU1DNDNOall4SlRKREpUSXdRM1ZzZEhWeVpTVXpSRzVsZFhSeVlXd2xNa01sTWpCUWRXSnNhV05MWlhsVWIydGxiaVV6Ukc1MWJHd2lQZzBLUEhOMGNtbHVaMGxFSUdsa1BTSnlaV1l0TXlJK01qTXhOREV5WkRrdE5HWmxNUzAwTVRJeUxUZ3dOVE10WkdKaFpUUXpOakUxTkRGa0xUQXdOREJoWXpZMFBDOXpkSEpwYm1kSlJENE5DanhwYm5SSlJENDBNak00TkRNMlBDOXBiblJKUkQ0TkNqd3ZZVEU2VTJWeWFXRnNhWHBoWW14bFNXUStEUW84TDFOUFFWQXRSVTVXT2tKdlpIaytEUW84TDFOUFFWQXRSVTVXT2tWdWRtVnNiM0JsUGcwSzwvQmFzZS0wX0RhdGE+DQo8QmFzZS0wX0hhc05lc3RlZERhdGE+ZmFsc2U8L0Jhc2UtMF9IYXNOZXN0ZWREYXRhPg0KPC9hMTpDYWxsU2l0ZV94MDAyQl9UcmFjZVNlcmlhbGlzZXJIZWxwZXI+DQo8L1NPQVAtRU5WOkJvZHk+DQo8L1NPQVAtRU5WOkVudmVsb3BlPg0K"
+      }
+    }
+  ],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 175282.01517881578,
+      "EyeY": 134252.86437541881,
+      "EyeZ": -107780.96119029843,
+      "LookX": -12756.218303815782,
+      "LookY": -12752.864375418809,
+      "LookZ": 2667.3830652984325,
+      "UpX": -0.51870057089117994,
+      "UpY": 0.848048096156426,
+      "UpZ": 0.10846264040039755
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Select Face",
+        "Id": "bac3df95d08f4cb8844f8537e48e69d1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 247.49554896142433,
+        "Y": 460.566765578635
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Surface.PerimeterCurves",
+        "Id": "e043fb002cb0426387460a06719f1d39",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 639.82789317507422,
+        "Y": 452.26112759643911
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.Flatten",
+        "Id": "dd7f951784d24338af5641e034490818",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 951.99406528189911,
+        "Y": 467.69139465875378
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "AreaSeparator.FromCurve",
+        "Id": "22260d54cd774d7b9a019013d49c49da",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1202.5909222889657,
+        "Y": 657.68471802130989
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Levels",
+        "Id": "035e2f628bf34b23ae2a5be81aa3029b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -27.890937331456939,
+        "Y": 713.85095729974068
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.Current",
+        "Id": "1450a266503548e5bc65233d62c02f30",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 782.47865060990944,
+        "Y": 1031.8647009030806
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.ActiveView",
+        "Id": "af89fa22a341448ea0ad3bc2cd9fca52",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 941.43072375870156,
+        "Y": 1018.3687701640323
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Level.Plane",
+        "Id": "20fa91c5e3c44896a8cd29540467bd35",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 495.96446287176036,
+        "Y": 697.77988338051216
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "SketchPlane.ByPlane",
+        "Id": "8f8c320c428c4d2fad8a729c80b10827",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 534.29809027297,
+        "Y": 1036.8477676910702
+      }
+    ],
+    "Annotations": [],
+    "X": -63.677912128979642,
+    "Y": -371.56954270013841,
+    "Zoom": 0.95448494563359243
+  }
+}

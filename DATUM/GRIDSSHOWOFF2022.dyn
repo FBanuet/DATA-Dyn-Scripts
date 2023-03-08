@@ -1,0 +1,121 @@
+{
+  "Uuid": "a9457db9-1e0a-42c1-824b-3566d5773375",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "GRIDSSHOWOFF2022",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "CustomNodesAXM.RevitAXM.GridBubbleOnOff@bool",
+      "Id": "763642d9e9bc49cda0d491ffc7edc411",
+      "Inputs": [
+        {
+          "Id": "44539102c9914b68ab91bfa2a61f6b37",
+          "Name": "reset",
+          "Description": "bool",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "dcdfd2bf4242416fb491986b8a4ff5bf",
+          "Name": "bool",
+          "Description": "bool",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "RevitAXM.GridBubbleOnOff (reset: bool): bool"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "c7c6e98d05e644118bf7efaa33cfb399",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "26d81822947846c0a1005c62df85c4e2",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "26d81822947846c0a1005c62df85c4e2",
+      "End": "44539102c9914b68ab91bfa2a61f6b37",
+      "Id": "b894ae5f93644625a9b83119856627e3"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "RevitAXM.GridBubbleOnOff",
+        "Id": "763642d9e9bc49cda0d491ffc7edc411",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 318.73070005078222,
+        "Y": 158.40399615876504
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Boolean",
+        "Id": "c7c6e98d05e644118bf7efaa33cfb399",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 148.65879019066608,
+        "Y": 161.13340457562833
+      }
+    ],
+    "Annotations": [],
+    "X": -589.25591818131306,
+    "Y": -338.26123504670909,
+    "Zoom": 2.4940063596020781
+  }
+}

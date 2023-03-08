@@ -1,0 +1,219 @@
+{
+  "Uuid": "a01201e9-a1a0-4466-ab04-f9789e94ade1",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Automatic_SingleClick_Wall_Dim",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Autodesk.Vector": {
+        "Key": "Autodesk.DesignScript.Geometry.Vector",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Autodesk.DesignScript.Geometry.Vector": {
+        "Key": "Autodesk.DesignScript.Geometry.Vector",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Autodesk.Geometry": {
+        "Key": "Autodesk.DesignScript.Geometry.Geometry",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Autodesk.DesignScript.Geometry.Geometry": {
+        "Key": "Autodesk.DesignScript.Geometry.Geometry",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Surface": {
+        "Key": "Autodesk.DesignScript.Geometry.Surface",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Line": {
+        "Key": "Autodesk.DesignScript.Geometry.Line",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Autodesk.Face": {
+        "Key": "Autodesk.DesignScript.Geometry.Face",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Autodesk.DesignScript.Geometry.Face": {
+        "Key": "Autodesk.DesignScript.Geometry.Face",
+        "Value": "ProtoGeometry.dll"
+      },
+      "DSCore.List": {
+        "Key": "DSCore.List",
+        "Value": "DSCoreNodes.dll"
+      }
+    }
+  },
+  "Inputs": [
+    {
+      "Id": "1abc28ecaf894b3a81419121975a6937",
+      "Name": "PAÑO INTERIOR / EXTERIOR",
+      "Type": "boolean",
+      "Value": "false",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "Id": "4e716ac98061435f860040638b6e7806",
+      "Name": "OFFSET COTA",
+      "Type": "number",
+      "Value": "0.8",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    }
+  ],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "1abc28ecaf894b3a81419121975a6937",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "38ae0a0809ec4fd4877d5f0c13e5b2c7",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#thanks for all the help everyone\r\nimport clr\r\n\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\nimport System\r\n\r\nclr.AddReference(\"RevitAPIUI\")\r\nfrom Autodesk.Revit.UI import *\r\n\r\nclr.AddReference(\"ProtoGeometry\")\r\nfrom Autodesk.DesignScript import Geometry as geom\r\n\r\n# Import Element wrapper extension methods\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nfrom Autodesk.Revit.DB import *\r\n\r\n# Import ToProtoType, ToRevitType geometry conversion extension methods\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.ImportExtensions(Revit.Elements)\r\n\r\n\r\n\r\nclr.AddReference(\"RevitAPIUI\")\r\nfrom Autodesk.Revit.UI.Selection import ObjectType\r\n\r\nclr.AddReference(\"ProtoGeometry\")\r\nfrom Autodesk.DesignScript import Geometry as geom\r\n\r\n# Import DocumentManager and TransactionManager\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument\r\n\r\n\r\ndef isParallel(v1, v2):\r\n    #it needs two vectors\r\n    return v1.CrossProduct(v2).IsAlmostEqualTo(XYZ(0, 0, 0))\r\n\r\ndef isAlmostEqualTo(v1, v2):\r\n    return v1.IsAlmostEqualTo(v2)\r\n\r\ndef isPerpendicular(v1, v2):\r\n    if v1.DotProduct(v2)== 0:\r\n        return True\r\n    else:\r\n        return False\r\n\r\n\r\ndef tolist(obj1):\r\n\tif hasattr(obj1,\"__iter__\"): return obj1\r\n\telse: return [obj1]\r\n\r\ndef CurveToVector(crv):\r\n\tvec = geom.Vector.ByTwoPoints(crv.StartPoint,crv.EndPoint)\r\n\treturn vec\r\n\r\n#set the wall orientation, depending on whether exterior or interior is selected\r\ndef wallNormal(wall, extOrint):\r\n    if extOrint:\r\n        wallNormal = wall.Orientation.ToVector()\r\n    else:\r\n        wallNormal = wall.Orientation.Negate().ToVector()\r\n    return wallNormal\r\n\r\n#this takes the wall location line, shifts it up the to the view cut plane\r\n#and moves it out to the external edge of the wall\r\ndef locToCutCrv(wall, wallNormal, lineEndExtend):\r\n\twallLn = wall.Location.Curve\r\n\twallCrv = wallLn.ToProtoType()\r\n\t#take the level height, subtract the height of the wall base\r\n\tzOf = doc.ActiveView.GenLevel.Elevation-wallCrv.StartPoint.Z\r\n\t#get the cut plane offset of the view\r\n\tcPlaneH = doc.ActiveView.GetViewRange().GetOffset(PlanViewPlane.CutPlane) #the CutPlane enumeration is like a property of PBP?\r\n\tcPlaneHiMM = UnitUtils.ConvertFromInternalUnits(cPlaneH, DisplayUnitType.DUT_METERS)\t\r\n\twallCrv = geom.Geometry.Translate(wallCrv, geom.Vector.ByCoordinates(0,0, zOf+cPlaneHiMM))\r\n\twallwidthMM = UnitUtils.ConvertFromInternalUnits(wall.Width, DisplayUnitType.DUT_METERS)\r\n\twallCrv = geom.Geometry.Translate(wallCrv, wallNormal, (wallwidthMM/2))\t\r\n\r\n\t#get wall curve info\r\n\twallvec = CurveToVector(wallCrv)\r\n\twallorig = geom.Curve.PointAtParameter(wallCrv,0.5)\r\n\twalldir1 = geom.Vector.ByTwoPoints(wallorig, wallCrv.StartPoint)\r\n\twalldir2 = geom.Vector.ByTwoPoints(wallorig, wallCrv.EndPoint)\r\n\r\n\t#move points\r\n\tptMvSt = geom.Geometry.Translate(wallCrv.StartPoint, walldir1, lineEndExtend)\r\n\tptMvEnd = geom.Geometry.Translate(wallCrv.EndPoint, walldir2, lineEndExtend)\r\n\r\n\t#create new line based on extended points\r\n\t#this is not a model line! that requires another method\r\n\tlineAtExternalEdgeAtCutPlaneHeight = geom.Line.ByStartPointEndPoint(ptMvSt, ptMvEnd).ToRevitType()\r\n\treturn lineAtExternalEdgeAtCutPlaneHeight\r\n\r\noffDist = IN[0]\r\nextOrInt = IN[1]\r\n\r\n#if the wall is exterior we need to extend the intersect line\r\n#beyond the exterior face to pick up the intersecting walls\r\n#if the wall is interior, we don't want to extend as far\r\nif extOrInt:\r\n    intersectLineEndExtend = 0.50\r\nelse:\r\n    intersectLineEndExtend = 0\r\n\r\n\r\nref = uidoc.Selection.PickObject(ObjectType.Element, \"SELECCIONAR MURO\")\r\ntargetWall = doc.GetElement(ref)\r\n\r\n#let's go get the walls for finding references\r\nintersectedWalls = []\r\n#start by adding our target wall\r\nintersectedWalls.append(targetWall)\r\n#then get all the other walls in the view and test if they intersect the Target Wall\r\ncollectedWalls = FilteredElementCollector(doc, doc.ActiveView.Id).OfClass(Wall).ToElements()\r\nfor collectedWall in collectedWalls:\r\n    if targetWall.Location.Curve.Intersect(collectedWall.Location.Curve) == SetComparisonResult.Overlap:\r\n        intersectedWalls.append(collectedWall)\r\n\r\n#Target Wall external line for intersect check\r\nexLi = locToCutCrv(targetWall, wallNormal(targetWall, extOrInt), intersectLineEndExtend)\r\n\r\n#Curve where the dimension will be located\r\noffCrv = geom.Geometry.Translate(exLi.ToProtoType(), wallNormal(targetWall, extOrInt), (offDist))\r\n\r\n#lets get the wall edges we want\r\n#only get edges intersecting target side? no this is misleading... we want any reference hitting our external wall\r\n#the problem is actually that the face itsetlf is registering the intersections we don't want e.g. the wrapping ends\r\nfrontFaceIW = []\r\nvertEdges = []\r\n\r\nopts = Options()\r\n#without compute references, none of this works\r\nopts.ComputeReferences = True\r\nopts.IncludeNonVisibleObjects = True\r\nopts.View = doc.ActiveView\r\n    \r\nfor wallInt in intersectedWalls:\r\n    for obj in wallInt.get_Geometry(opts):\r\n        #walls also contain line geometry    \r\n        if isinstance(obj, Solid): \r\n            for face in obj.Faces:\r\n                #if face is normal is equal to wall normal it is the external face\r\n                if isAlmostEqualTo(wallInt.Orientation, face.ComputeNormal(UV(0.5,0.5))):\r\n                    frontFaceIW.append(face)\r\n                                   \r\n            for edge in obj.Edges:\r\n                #get edges which intersect\r\n                edgeC = edge.AsCurve()\r\n                edgeCNorm = edgeC.Direction.Normalize()\r\n                #if front face edge and edge intersects line and edge is vertical up or vertical down add to list\r\n                if edgeC.Intersect(exLi) != SetComparisonResult.Disjoint and (edgeCNorm.IsAlmostEqualTo(XYZ(0,0,1)) or edgeCNorm.IsAlmostEqualTo(XYZ(0,0,-1))):                    \r\n                    vertEdges.append(edge)\t\t\t\t\t\r\n\r\n#so we use the X+Y values as a unique identifier of location (we're less interested in\r\n#the actual unique reference, there may be 2 in the same place)\r\n#we will use these as filtering and sorting values\r\n#if we wanted to use this on sections we'd want to use z value?\r\nvertEdgesLoc = []\r\nfor v in vertEdges:\r\n    vLoc = v.AsCurve().GetEndPoint(0).X + v.AsCurve().GetEndPoint(0).Y\r\n    #getting some revit rounding errors, 7dp should be enough!\r\n    vertEdgesLoc.append(round(vLoc,7))\r\n\r\n\r\n#trying to remove stray intersect edges from adjoining walls\r\n#to identify them, they are not on an intersecting wall front face\r\n#their faces are not both on the target wall\r\n\r\n#so we need all the target wall faces\r\nfor obj in targetWall.get_Geometry(opts):\r\n    #walls also contain line geometry    \r\n    if isinstance(obj, Solid): \r\n        faceTW = obj.Faces\r\nOUT = faceTW\r\n#create a holding list containing everything in vertEdges\r\nstrayEdges = []        \r\nfor v in vertEdges:\r\n    strayEdges.append(v)\r\n\r\n#start removing things from holding list to leave only the stray ones\r\nfor faIW in frontFaceIW:\r\n    #if edge face 0&1 are both target wall faces we don't want to remove them\r\n    i = 0\r\n    length = len(strayEdges)\r\n    while (i < length):\r\n        if strayEdges[i].GetFace(0) in faceTW:\r\n            strayEdges.Remove(strayEdges[i])\r\n            length = length - 1\r\n        elif strayEdges[i].GetFace(1) in faceTW:\r\n            strayEdges.Remove(strayEdges[i])\r\n            length = length - 1            \r\n        #if our wall is external.... #if edge face is an intersecting wall's front face, we don't want it                \r\n        elif strayEdges[i].GetFace(0) == faIW and extOrInt == True:\r\n            strayEdges.Remove(strayEdges[i])            \r\n            length = length - 1 \r\n        elif strayEdges[i].GetFace(1) == faIW and extOrInt == True:\r\n            strayEdges.Remove(strayEdges[i])\r\n            length = length - 1 \r\n#            strayEdges.Remove(ed)\r\n        #or if the edge reference is to a non-wall\r\n            continue\r\n        i = i+1\r\n\r\n#if the wall is exterior, we want to remove references to internal wall edge\r\nif extOrInt == True:\r\n    i=0\r\n    length = len(vertEdgesLoc)\r\n    strayCLoc2 = []\r\n    while (i < length):\r\n        for stray in strayEdges:\r\n            stLoc = stray.AsCurve().GetEndPoint(0).X + stray.AsCurve().GetEndPoint(0).Y\r\n            #getting eroneous values, Revit accuracy not good enough? round is built in method\r\n            if round(vertEdgesLoc[i],7) == round(stLoc,7):\r\n                vertEdges.Remove(vertEdges[i])\r\n                vertEdgesLoc.Remove(vertEdgesLoc[i])\r\n                length = length - 1    \r\n                continue\r\n        i = i+1\r\n\r\n#sort the edges using the combined XY location value\r\nvertEdgesSorted = [x for _,x in sorted(zip(vertEdgesLoc,vertEdges))]\r\nvertEdgesLocSorted = sorted(vertEdgesLoc)\r\n\r\n#only add uniquely located references\r\n#this is awkward because we test 1 list, then add to the other list\r\n#we need the Temp list, so we know what should be added to the Sub list\r\nvertEdgeUniLocTemp = []\r\nvertEdgeSub = ReferenceArray()\r\nfor eL, e in zip(vertEdgesLocSorted, vertEdgesSorted):\r\n    if eL not in vertEdgeUniLocTemp:\r\n        vertEdgeUniLocTemp.append(eL)\r\n        vertEdgeSub.Append(e.Reference)\r\n\r\n\r\n#we want to pair up the references to create unique dims for the brick dim checker\r\n#convoluted code, ref arrays seem their own beast!\r\noutRefs = []\r\n#define the overall list length\r\nfor i in range(vertEdgeSub.Size-1):\r\n    #create the array here so the list nesting is correct\r\n    vertEdgeAr = ReferenceArray()\r\n    #define the sub list length\r\n    while vertEdgeAr.Size < 2:\r\n        #only get add 2 indices for each sub list\r\n        vertEdgeAr.Append(vertEdgeSub[i])\r\n        vertEdgeAr.Append(vertEdgeSub[i+1])\r\n    outRefs.append(vertEdgeAr)\r\n\r\n#OUT = len(strayEdges)\r\n#start transaction\r\na = []\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n#create dimensions for each pair of referenes\r\nfor refs in outRefs:    \r\n\t\r\n\tdim = doc.Create.NewDimension(doc.ActiveView, offCrv.ToRevitType(), refs)\r\n#finish transaction    \r\nTransactionManager.Instance.TransactionTaskDone()\r\n\r\n",
+      "VariableInputPorts": true,
+      "Id": "9493e96717c148cc88a037d73c077d22",
+      "Inputs": [
+        {
+          "Id": "e2fb53b6cf2044e9aebc45b8c88ddf77",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c629cd732e6d4716b16cbc3299727d28",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "10552befa2884813ac9c7ef5c09a0896",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.8,
+      "Id": "4e716ac98061435f860040638b6e7806",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5fbc9486d25a4645b93aa8173a9722cb",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "38ae0a0809ec4fd4877d5f0c13e5b2c7",
+      "End": "c629cd732e6d4716b16cbc3299727d28",
+      "Id": "0e72847b0d5c40bea32f57eed5d1fb0a"
+    },
+    {
+      "Start": "5fbc9486d25a4645b93aa8173a9722cb",
+      "End": "e2fb53b6cf2044e9aebc45b8c88ddf77",
+      "Id": "b0120de73b4d4b64bd3dff9aa7fe1c18"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8104",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 2.5750431770576876,
+      "EyeY": 2.2512928643061456,
+      "EyeZ": 17.793142143807231,
+      "LookX": -4.7007810659913938,
+      "LookY": -2.7087844266186507,
+      "LookZ": -17.77838513439012,
+      "UpX": 0.017831508418659138,
+      "UpY": 0.99756405025983119,
+      "UpZ": 0.067438882973626407
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "PAÑO INTERIOR / EXTERIOR",
+        "Id": "1abc28ecaf894b3a81419121975a6937",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1372.32123399415,
+        "Y": 10532.2705627124
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "9493e96717c148cc88a037d73c077d22",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1662.8720387228961,
+        "Y": 10450.744469352554
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "OFFSET COTA",
+        "Id": "4e716ac98061435f860040638b6e7806",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1370.5501236597991,
+        "Y": 10451.109503820457
+      }
+    ],
+    "Annotations": [],
+    "X": -1699.0089908914897,
+    "Y": -13171.194011456102,
+    "Zoom": 1.2789454542400858
+  }
+}

@@ -1,0 +1,840 @@
+{
+  "Uuid": "53565eea-c094-4a04-9b72-1bfc72d848ab",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "Test1",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonStringNode, PythonNodeModels",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "NodeType": "ExtensionNode",
+      "Id": "c35bac174db54997af07a5390bf399a5",
+      "Inputs": [
+        {
+          "Id": "e7ca7a38a27d4a36ad6117da04e5fd63",
+          "Name": "script",
+          "Description": "Secuencia de comandos de Python que ejecutar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b0d12f2beaa5466b929283051b7abecc",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0fbea11b3a3541768698d58ba657de1e",
+          "Name": "OUT",
+          "Description": "Resultado de la secuencia de comandos de Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Ejecuta una secuencia de comandos de Python a partir de una cadena."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "import sys\r\nimport clr\r\nsys.path.append(r'C:\\Users\\banar\\anaconda3\\envs\\Dynamo3810\\Lib\\site-packages')\r\n\r\nimport openai  \r\nimport requests  \r\nimport os  \r\n \r\n\r\n\r\nopenai.api_key = (\"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\")\r\n\r\n# set a directory to save DALL-E images to\r\nimage_dir_name = (r'C:\\Users\\banar\\OneDrive\\Pictures\\OPENAI')\r\nimage_dir = os.path.join(os.curdir, image_dir_name)\r\n\r\n# create the directory if it doesn't yet exist\r\nif not os.path.isdir(image_dir):\r\n    os.mkdir(image_dir)\r\n\r\n\r\nprompt = \"Parametric Truss system double curvature geometry \"\r\n\r\n# OpenAI API\r\ngeneration_response = openai.Image.create(\r\n    prompt=prompt,\r\n    n=1,\r\n    size=\"1024x1024\",\r\n    response_format=\"url\",\r\n)\r\n# save the image\r\ngenerated_image_name = \"generated_image.png\"  # any name you like; the filetype should be .png\r\ngenerated_image_filepath = os.path.join(image_dir, generated_image_name)\r\ngenerated_image_url = generation_response[\"data\"][0][\"url\"]  # extract image URL from response\r\ngenerated_image = requests.get(generated_image_url).content  # download the image\r\n\r\nwith open(generated_image_filepath, \"wb\") as image_file:\r\n    image_file.write(generated_image)  # write the image to the file\r\n\r\n\r\nOUT = generated_image_filepath",
+      "Id": "2bb6e53ef3494569858a55a51a4f2149",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "0a300ba39f794ce68487461df0adb9b4",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Crea una cadena"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.WatchImageCore, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "b766032909374f4c9b8110c789a9c6bc",
+      "Inputs": [
+        {
+          "Id": "d2f72429e6dc40e0a97e512674b209f0",
+          "Name": "image",
+          "Description": "Imagen para visualización",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b1c06cd900594d3cafab3db753ca75f3",
+          "Name": "image",
+          "Description": "Imagen para visualización",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Muestra una vista preliminar de una imagen"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.IO.Image.ReadFromFile@var",
+      "Id": "63ff2ea88dce4359a67e8f1013292d5a",
+      "Inputs": [
+        {
+          "Id": "06356939779a43809d92578ba87d1bdd",
+          "Name": "file",
+          "Description": "Objeto de archivo desde el que cargar la imagen.\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4c54a19370574523845427d8c069b5b5",
+          "Name": "image",
+          "Description": "Objeto de imagen de archivo.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Carga el archivo como mapa de bits.\n\nImage.ReadFromFile (file: var): var"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.FileObject, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "058439787f174dabaf44ae5ca6303455",
+      "Inputs": [
+        {
+          "Id": "fc5552d227274b60860d5d65908f80c9",
+          "Name": "path",
+          "Description": "Ruta al archivo como cadena.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f3fd1b30818e448191e94b6fe21b96f8",
+          "Name": "file",
+          "Description": "Objeto de archivo",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Crea un objeto de archivo a partir de una ruta"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.IO.Image.Pixels@var,int,int",
+      "Id": "c01ea3a215f84ed9aee1f4411de6a961",
+      "Inputs": [
+        {
+          "Id": "8fd594faf355401db13eaf27011260cf",
+          "Name": "image",
+          "Description": "Objeto de imagen desde el que obtener colores de píxeles.\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ed879ca6e2e64f20bf582721fe11043f",
+          "Name": "xSamples",
+          "Description": "Número de puntos de rejilla de muestra en la dirección X.\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f2593da7f7c740f38bf16f567c012095",
+          "Name": "ySamples",
+          "Description": "Número de puntos de rejilla de muestra en la dirección Y.\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0e586bf575dd4d179ee0e49c6abb2fd5",
+          "Name": "colors",
+          "Description": "Colores en los puntos de rejilla especificados.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Lee un archivo de imagen y devuelve los valores de color en las ubicaciones de rejilla especificadas.\n\nImage.Pixels (image: var, xSamples: int, ySamples: int): Color[][]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.Color.Brightness@DSCore.Color",
+      "Id": "109de0959a1f44d48ea613a873bc656e",
+      "Inputs": [
+        {
+          "Id": "0d8a9285d50e43d5b75034dff39ccee9",
+          "Name": "color",
+          "Description": "Color desde el que se consultará el brillo.\n\nColor",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c79d550b2e6e44bd8b2a02d220925dee",
+          "Name": "double",
+          "Description": "Valor de brillo (entre 0 y 1, inclusive).",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Devuelve el valor de brillo de este color.\n\nColor.Brightness (color: Color): double"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Flatten@var[]..[],int",
+      "Id": "4d6a11eea4ac44e485fccce9077239e7",
+      "Inputs": [
+        {
+          "Id": "ba86bcd670184183b77efeeb30541f9e",
+          "Name": "list",
+          "Description": "Lista que se debe aplanar.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c6e986d4bc2b4c3badf40a4f0abea61f",
+          "Name": "amount",
+          "Description": "Capas de anidamiento de lista que se van a eliminar (-1 eliminará todos los anidamientos de lista).\n\nint\nValor por defecto : -1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "beac5eb64d594462a8e40794c65fe97d",
+          "Name": "list",
+          "Description": "Lista aplanada por cantidad.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Aplana una lista anidada de listas aplicando el valor especificado.\n\nList.Flatten (list: var[]..[], amount: int = -1): var[]..[]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Sequence, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "b280d04789f04d4ea4c5a23addc79a15",
+      "Inputs": [
+        {
+          "Id": "b9b652110bec461f92a6270e3bccff18",
+          "Name": "start",
+          "Description": "El número o letra inicial de la secuencia\r\nValor por defecto: 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ef935eb9bc9c48218f066bff442c2a71",
+          "Name": "amount",
+          "Description": "Cantidad de números o letras en la secuencia\r\nValor por defecto: 10",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9153b9b15ea8410ea147e6bded1a22d3",
+          "Name": "step",
+          "Description": "Espacio entre números o letras\r\nValor por defecto: 1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "dba4f8977e284156a3b392f94750ee4e",
+          "Name": "list",
+          "Description": "Nueva lista de tipo: var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Crea una secuencia de números"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 60.0,
+      "Id": "53d21b68a5574fcaa474a3e9f1e6227c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "a580ec46e0684f19b46e895a46e7a850",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Crea un número"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Point.ByCoordinates@double,double,double",
+      "Id": "e2ce938ed53143289b48507242bde22c",
+      "Inputs": [
+        {
+          "Id": "ed6fd4c7c3784b2688bb2b43c41b940d",
+          "Name": "x",
+          "Description": "Coordenada X\n\ndouble\nValor por defecto : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1650171091bc412da631d2baf4e0acb0",
+          "Name": "y",
+          "Description": "Coordenada Y\n\ndouble\nValor por defecto : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bbc0549d23b14f088a7f0c9ed98b7815",
+          "Name": "z",
+          "Description": "Coordenada Z\n\ndouble\nValor por defecto : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a3163ab39a604d26b2c79256b5c17951",
+          "Name": "Point",
+          "Description": "Punto creado por coordenadas",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "CrossProduct",
+      "Description": "Genera un punto con las tres coordenadas cartesianas especificadas.\n\nPoint.ByCoordinates (x: double = 0, y: double = 0, z: double = 0): Point"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Circle.ByCenterPointRadius@Autodesk.DesignScript.Geometry.Point,double",
+      "Id": "5863f46eaf1c4c479510110ddfd4d18c",
+      "Inputs": [
+        {
+          "Id": "d74410d9edbd4ec38c51ce7a060184f8",
+          "Name": "centerPoint",
+          "Description": "Punto central del círculo\n\nPoint\nValor por defecto : Autodesk.DesignScript.Geometry.Point.ByCoordinates(0, 0, 0)",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8b0d0b1152044ebb9f6e01b3a4c95e60",
+          "Name": "radius",
+          "Description": "Radio\n\ndouble\nValor por defecto : 1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e4c165370a8a4fbab068544274e882fa",
+          "Name": "Circle",
+          "Description": "Círculo creado con punto central y radio",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Crea un círculo con punto central y radio en el plano XY universal, con el plano Z universal como normal.\n\nCircle.ByCenterPointRadius (centerPoint: Point = Autodesk.DesignScript.Geometry.Point.ByCoordinates(0, 0, 0), radius: double = 1): Circle"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.MaximumItem@var[]",
+      "Id": "6c04579d7fd74faf93df0d291784908e",
+      "Inputs": [
+        {
+          "Id": "f495ff058b9940779bf7397cc87f160c",
+          "Name": "list",
+          "Description": "Lista de elementos comparables desde la que se obtendrá el valor máximo.\n\nvar[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d4d3cfa0920046fdb9f240aa492f7588",
+          "Name": "item",
+          "Description": "Elemento máximo de la lista.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Devuelve el valor máximo de una lista.\n\nList.MaximumItem (list: var[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "*@var[]..[],var[]..[]",
+      "Id": "b2df0c81c3c24ba68cddacf64a5dfad4",
+      "Inputs": [
+        {
+          "Id": "29d4449119344be1b9e403b36f263bcf",
+          "Name": "x",
+          "Description": "Valor entero o doble.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b5912349bde84de980f4def603300595",
+          "Name": "y",
+          "Description": "Valor entero o doble.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5558250d720f441ca1c0a9d6b47bcbdd",
+          "Name": "number",
+          "Description": "El producto de los dos números de entrada.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Devuelve la multiplicación de X por Y.\n\n* (x: var[]..[], y: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.354,
+      "Id": "b0e8fb6368294e5f881b1ca164b80ff9",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4e5b136696c14f95b1f7bdff5fa3e1be",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Crea un número"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "0fbea11b3a3541768698d58ba657de1e",
+      "End": "fc5552d227274b60860d5d65908f80c9",
+      "Id": "31dd5395420a46728267d0b21f4115e1",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "0a300ba39f794ce68487461df0adb9b4",
+      "End": "e7ca7a38a27d4a36ad6117da04e5fd63",
+      "Id": "8e2cc867463e49d49315cdd798ac90d6",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b1c06cd900594d3cafab3db753ca75f3",
+      "End": "8fd594faf355401db13eaf27011260cf",
+      "Id": "888c514951d8466ab469dfe07864efc1",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4c54a19370574523845427d8c069b5b5",
+      "End": "d2f72429e6dc40e0a97e512674b209f0",
+      "Id": "268626e04b894ba08812d3e68d85c81b",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f3fd1b30818e448191e94b6fe21b96f8",
+      "End": "06356939779a43809d92578ba87d1bdd",
+      "Id": "a2a82567ccb142ba82019ce339e118d3",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "0e586bf575dd4d179ee0e49c6abb2fd5",
+      "End": "0d8a9285d50e43d5b75034dff39ccee9",
+      "Id": "61533c485fea42cdb2f806acef5efae5",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "c79d550b2e6e44bd8b2a02d220925dee",
+      "End": "ba86bcd670184183b77efeeb30541f9e",
+      "Id": "d6b3ce0b718646c6ba4c8784b7b53744",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "c79d550b2e6e44bd8b2a02d220925dee",
+      "End": "29d4449119344be1b9e403b36f263bcf",
+      "Id": "247a2f1bd8fd49aba959e4d415dd3e1c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "beac5eb64d594462a8e40794c65fe97d",
+      "End": "f495ff058b9940779bf7397cc87f160c",
+      "Id": "b926ae5b80664d559f9f3b30b418f5db",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "dba4f8977e284156a3b392f94750ee4e",
+      "End": "ed6fd4c7c3784b2688bb2b43c41b940d",
+      "Id": "7343f6c2ad8345c7b32b7bb2963304fa",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "dba4f8977e284156a3b392f94750ee4e",
+      "End": "1650171091bc412da631d2baf4e0acb0",
+      "Id": "dafa8e5b46744a2cbf4814f3b2e5f78c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a580ec46e0684f19b46e895a46e7a850",
+      "End": "ef935eb9bc9c48218f066bff442c2a71",
+      "Id": "8b1dc325cca54b9e9af6bca2374c25cf",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a580ec46e0684f19b46e895a46e7a850",
+      "End": "ed879ca6e2e64f20bf582721fe11043f",
+      "Id": "12a3e326b3a4443b94bbc517344ba407",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a580ec46e0684f19b46e895a46e7a850",
+      "End": "f2593da7f7c740f38bf16f567c012095",
+      "Id": "625ba4c814b9478782f109174f438f4c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a3163ab39a604d26b2c79256b5c17951",
+      "End": "d74410d9edbd4ec38c51ce7a060184f8",
+      "Id": "8df1190f02df4e7c92d0423884062c6f",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "5558250d720f441ca1c0a9d6b47bcbdd",
+      "End": "8b0d0b1152044ebb9f6e01b3a4c95e60",
+      "Id": "485f28ba70b74eb69757df1f86096b85",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4e5b136696c14f95b1f7bdff5fa3e1be",
+      "End": "b5912349bde84de980f4def603300595",
+      "Id": "111e216345fb41adb881b3cdc654a519",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "generated_image.png",
+      "ReferenceType": "External",
+      "Nodes": [
+        "c35bac174db54997af07a5390bf399a5"
+      ]
+    }
+  ],
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Properties",
+      "Version": "2.13",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "2.0",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "Ninguno",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.13.1.3887",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Vista preliminar en segundo plano",
+      "EyeX": 52.165626525878906,
+      "EyeY": 33.99909782409668,
+      "EyeZ": 0.31896209716796875,
+      "LookX": -49.1130256652832,
+      "LookY": -33.802711486816406,
+      "LookZ": -11.058525085449219,
+      "UpX": -0.35754969716072083,
+      "UpY": 0.93041759729385376,
+      "UpZ": -0.080507636070251465
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Name": "DALL.E ENGINE",
+        "ShowGeometry": true,
+        "Id": "c35bac174db54997af07a5390bf399a5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -593.35443110003632,
+        "Y": 135.61922909603112
+      },
+      {
+        "Name": "String",
+        "ShowGeometry": true,
+        "Id": "2bb6e53ef3494569858a55a51a4f2149",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -892.26472276582388,
+        "Y": 91.056584278816871
+      },
+      {
+        "Name": "Watch Image",
+        "ShowGeometry": true,
+        "Id": "b766032909374f4c9b8110c789a9c6bc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1145.5205662102508,
+        "Y": -0.96324546031934233
+      },
+      {
+        "Name": "Image.ReadFromFile",
+        "ShowGeometry": true,
+        "Id": "63ff2ea88dce4359a67e8f1013292d5a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 146.26870432075089,
+        "Y": 161.3706333586199
+      },
+      {
+        "Name": "File From Path",
+        "ShowGeometry": true,
+        "Id": "058439787f174dabaf44ae5ca6303455",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -72.069580071979544,
+        "Y": 154.30163808276518
+      },
+      {
+        "Name": "Image.Pixels",
+        "ShowGeometry": true,
+        "Id": "c01ea3a215f84ed9aee1f4411de6a961",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 675.315305375136,
+        "Y": 907.21295304176249
+      },
+      {
+        "Name": "Color.Brightness",
+        "ShowGeometry": true,
+        "Id": "109de0959a1f44d48ea613a873bc656e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1004.1812749925175,
+        "Y": 907.88458464014423
+      },
+      {
+        "Name": "List.Flatten",
+        "ShowGeometry": true,
+        "Id": "4d6a11eea4ac44e485fccce9077239e7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1259.9579866649742,
+        "Y": 900.39321651584612
+      },
+      {
+        "Name": "Sequence",
+        "ShowGeometry": true,
+        "Id": "b280d04789f04d4ea4c5a23addc79a15",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1341.2928405859225,
+        "Y": 624.28279136315246
+      },
+      {
+        "Name": "Number",
+        "ShowGeometry": true,
+        "Id": "53d21b68a5574fcaa474a3e9f1e6227c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 924.98681196422524,
+        "Y": 668.16080466261155
+      },
+      {
+        "Name": "Point.ByCoordinates",
+        "ShowGeometry": true,
+        "Id": "e2ce938ed53143289b48507242bde22c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1624.8946338629141,
+        "Y": 621.07220502416772
+      },
+      {
+        "Name": "Circle.ByCenterPointRadius",
+        "ShowGeometry": true,
+        "Id": "5863f46eaf1c4c479510110ddfd4d18c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1934.1811178517842,
+        "Y": 550.439305566502
+      },
+      {
+        "Name": "List.MaximumItem",
+        "ShowGeometry": true,
+        "Id": "6c04579d7fd74faf93df0d291784908e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1651.3541428915908,
+        "Y": 997.2911585015612
+      },
+      {
+        "Name": "*",
+        "ShowGeometry": true,
+        "Id": "b2df0c81c3c24ba68cddacf64a5dfad4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2014.9519194280476,
+        "Y": 852.36057624577086
+      },
+      {
+        "Name": "Number",
+        "ShowGeometry": true,
+        "Id": "b0e8fb6368294e5f881b1ca164b80ff9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1836.9669938507611,
+        "Y": 832.019441894081
+      }
+    ],
+    "Annotations": [],
+    "X": 988.53784900372284,
+    "Y": -88.469522323553008,
+    "Zoom": 0.81087590207108051
+  }
+}
